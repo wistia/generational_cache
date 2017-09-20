@@ -1,5 +1,5 @@
 defmodule GenerationalCache do
-  def new(max_generations), do: %{max_generations: max_generations}
+  def new(max_generations), do: %{max_generations: max_generations, generations: []}
 
   def add_generation(cache = %{generations: generations, max_generations: max_generations}, new_gen) when length(generations) == max_generations do
     evict_generation(cache)
