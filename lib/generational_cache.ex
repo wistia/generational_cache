@@ -16,4 +16,9 @@ defmodule GenerationalCache do
   def entries(%{generations: generations}) do
     Enum.reduce(generations, %{}, fn gen, acc -> Map.merge(acc, gen) end)
   end
+
+  def delete(%{generations: generations}, k) do
+    new_generations = Enum.map(generations, fn generation -> Map.delete(generation, k) end)
+    %{generations: new_generations}
+  end
 end
