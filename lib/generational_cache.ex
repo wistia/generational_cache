@@ -3,7 +3,7 @@ defmodule GenerationalCache do
 
   def add_generation(cache = %{generations: generations, max_generations: max_generations}, new_gen) when length(generations) == max_generations do
     evict_generation(cache)
-    add_generation(cache, new_gen)
+    |> add_generation(new_gen)
   end
   def add_generation(cache = %{generations: generations}, new_gen) do
     put_in(cache[:generations], generations ++ [new_gen])
