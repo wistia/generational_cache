@@ -1,19 +1,33 @@
 # GenerationalCache
 
-**TODO: Add description**
-
+dead simple generational cache
+ 
 ## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `generational_cache` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:generational_cache, "~> 0.1.0"}]
+  [{:generational_cache, github: "wistia/generational_cache"}]
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/generational_cache](https://hexdocs.pm/generational_cache).
+## Usage
 
+```elixir
+# Keep the two latest generations
+cache = GenerationalCache.new(2)
+
+# Add a new generation
+# Generations are expected to be maps
+cache = GenerationalCache.add_generation(cache, %{a: 1, b: 2})
+
+# The freshest generation always wins
+# Generations are essentially layered on top of each other then flattened
+cache = GenerationalCache.add_generation(cache, %{b: 3})
+GenerationalCache.entries(cache)
+#=> %{a: 1, b: 3}
+
+# Older generations are dropped
+cache = GenerationalCache.add_generation(cache, %{c: 4})
+GenerationalCache.entries(cache)
+#=> %{b: 3, c: 4}
+```
